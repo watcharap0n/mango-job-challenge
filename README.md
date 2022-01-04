@@ -31,5 +31,4 @@
 ```
 
 **Preview API Document**
-
-![Alt text](https://github.com/watcharap0n/mango-job-challenge/blob/main/app/static/github/api-doc.png?raw=true "Title")
+![Alt text](https://github.com/watcharap0n/mango-job-challenge/blob/master/app/static/github/api-doc.png?raw=true "Title")
