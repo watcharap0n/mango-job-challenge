@@ -3,7 +3,6 @@ uvicorn main:app --port {$port} --reload
 pattern MVC
 main.py
 """
-
 from fastapi import FastAPI
 from crud import student
 
