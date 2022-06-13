@@ -12,6 +12,15 @@ services:
       - microservice
       - default
 
+  redis:
+    image: "redis:alpine"
+    container_name: container-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./app/redis:/data
+
   web_app:
     container_name: web_app
     build: .
@@ -19,12 +28,13 @@ services:
     restart: always
     depends_on:
       - mongodb
+      - redis
     ports:
       - "8080:80"
     volumes:
       - ./app:/app
-    env_file:
-      - .env
+#    env_file:
+#      - .env
 
 networks:
   default:
