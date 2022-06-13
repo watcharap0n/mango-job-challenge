@@ -3,4 +3,5 @@ Pipfile.lock
 Pipfile
 *__pycache__
 .idea
-*app/.env
+.env
+app/db/data/
