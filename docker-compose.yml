@@ -1,13 +1,11 @@
-version: "3.9"
+version: "3"
 
 services:
   web:
     build: .
     image: kaneai/mango-test-api
-    container_name: container-mango-test-api
+    container_name: mango-test-api
     restart: always
-    env_file:
-      - app/.env
     ports:
       - "80:80"
     volumes:
