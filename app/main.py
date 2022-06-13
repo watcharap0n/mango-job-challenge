@@ -1,12 +1,10 @@
-from fastapi import FastAPI
-from routers import users
+from fastapi import FastAPI, status
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
-app.include_router(
-    users.router,
-    prefix='/users',
-    tags=['Users'],
-    responses={418: {'description': "I'm teapot"}},
-)
+
+@app.get('/')
+async def index():
+    return JSONResponse(status_code=status.HTTP_200_OK, content={'page': 'first page'})
 
