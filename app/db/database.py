@@ -1,3 +1,4 @@
+from typing import Optional
 from pymongo import MongoClient
 import pymongo
 
@@ -10,57 +11,62 @@ class MongoDB:
     def database_config(self):
         return self.database
 
+    def get_collection_names(self):
+        return self.database.list_collection_names()
+
     @staticmethod
     def find_dictionary(programming, query):
         return programming.find(query)
 
-    def find_one(self, collection: str, query: dict):
-        return self.database[collection].find_one(query, {'_id': False})
+    async def find_one(self, collection: str, query: dict, select_field: Optional[dict] = None):
+        return self.database[collection].find_one(query, select_field)
 
-    def find_one_lasted(self, collection: str, query: dict):
-        return self.database[collection].find_one(query, sort=[('_id', pymongo.DESCENDING)])
+    async def find_one_lasted(self, collection: str, query: dict):
+        return self.database[collection].find_one(
+            query, sort=[("_id", pymongo.DESCENDING)]
+        )
 
-    def find(self, collection: str, query: dict):
-        return self.database[collection].find(query, {'_id': False})
+    async def find(self, collection: str, query: dict, select_field: Optional[dict] = None):
+        return self.database[collection].find(query, select_field)
 
-    def insert_one(self, collection: str, data: dict):
+    async def insert_one(self, collection: str, data: dict):
         ids = None
         try:
             result = self.database[collection].insert_one(data)
-            ids = result.inserted_ids
+            ids = result.inserted_id
         except Exception as e:
             print(str(e))
         return ids
 
-    def insert_many(self, collection: str, data: list):
+    async def insert_many(self, collection: str, data: list):
         ids = None
         try:
             result = self.database[collection].insert_many(data)
-            ids = result.inserted_ids
+            ids = result.inserted_id
         except Exception as e:
             print(str(e))
         return ids
 
-    def update_many(self, collection: str, query: dict, values):
+    async def update_many(self, collection: str, query: dict, values):
         try:
             self.database[collection].update_many(query, values)
         except Exception as e:
             print(str(e))
 
-    def update_one(self, collection: str, query: dict, values):
+    async def update_one(self, collection: str, query: dict, values):
         try:
-            self.database[collection].update_one(query, values)
+            return self.database[collection].update_one(query, values).modified_count
         except Exception as e:
             print(str(e))
 
-    def delete_one(self, collection: str, query: dict):
+    async def delete_one(self, collection: str, query: dict):
         try:
-            self.database[collection].delete_one(query)
+            return self.database[collection].delete_one(query).deleted_count
         except Exception as e:
             print(str(e))
 
-    def delete_many(self, collection: str, query: dict):
+    async def delete_many(self, collection: str, query: dict):
         try:
-            self.database[collection].delete_many(query)
+            self.database[collection].delete_many(query).deleted_count
         except Exception as e:
             print(str(e))
