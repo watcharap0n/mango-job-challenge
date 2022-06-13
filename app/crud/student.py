@@ -1,3 +1,4 @@
+from redis_d.conn import conn
 from fastapi import APIRouter
 from typing import List
 from pydantic import BaseModel, Field
@@ -38,3 +39,9 @@ async def get_students():
     students = await db.find(collection=collection, query={})
     students = list(students)
     return students
+
+
+@router.get('/add/redis')
+async def add_redis(val: str):
+    print(conn.get('name'))
+    return val
