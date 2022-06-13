@@ -1,13 +1,30 @@
 version: "3"
 
 services:
-  web:
+  mongodb:
+    container_name: database
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./app/db/data:/data/db
+
+  web_app:
+    container_name: web_app
     build: .
     image: kaneai/mango-test-api
-    container_name: mango-test-api
     restart: always
+    depends_on:
+      - mongodb
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./app:/app
+#    env_file:
+#      - .env
+
+networks:
+  defatult:
+    external:
+      name: microservice_network
 
