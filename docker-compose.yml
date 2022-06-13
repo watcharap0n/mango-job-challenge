@@ -8,6 +8,9 @@ services:
       - "27017:27017"
     volumes:
       - ./app/db/data:/data/db
+    networks:
+      - microservice
+      - default
 
   web_app:
     container_name: web_app
@@ -20,11 +23,13 @@ services:
       - "8080:80"
     volumes:
       - ./app:/app
-#    env_file:
-#      - .env
+    env_file:
+      - .env
 
 networks:
-  defatult:
+  default:
+    external:
+      name: student_network
+  microservice:
     external:
       name: microservice_network
-
