@@ -5,3 +5,4 @@ Pipfile
 .idea
 .env
 app/db/data/
+/app/redis_data/dump.rdb
